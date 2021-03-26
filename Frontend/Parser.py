@@ -3,8 +3,9 @@ from Lexer import *
 class AST:
     
 
-    def __init__(self, id):
+    def __init__(self, id, num = -1):
         self.name = id
+        self.tok = num
         self.children = []
         self.parent = None
     
@@ -29,7 +30,7 @@ class Parser:
 
     def match(self, x):
         if self.stream[self.cur_lexeme_pos][0] == x:
-            node = AST(self.stream[self.cur_lexeme_pos][1])
+            node = AST(self.stream[self.cur_lexeme_pos][1], self.stream[self.cur_lexeme_pos][0])
             self.NodePtr.addNode(node)
             self.consume()
             
@@ -50,14 +51,22 @@ class Parser:
             self.match(LexTokens.Prob_val)
 
     def equation(self):
+        equ = AST("RHS")
+        
         if(self.stream[self.cur_lexeme_pos][0] == LexTokens.Equ_):
             
             self.match(LexTokens.Equ_)
+            self.NodePtr.addNode(equ)
+            self.NodePtr = equ
             self.value()
         else:
             
             self.match(LexTokens.Is_tok)
+            self.NodePtr.addNode(equ)
+            self.NodePtr = equ
             self.value()
+        self.NodePtr = self.NodePtr.get_parent()
+        
             
     def evalVar(self):
         
@@ -66,14 +75,20 @@ class Parser:
             self.evalVar() 
             
         elif(self.stream[self.cur_lexeme_pos][0] == LexTokens.And_Tok):
+            
             self.match(LexTokens.And_Tok)
             self.evalVar()
+            
         elif(self.stream[self.cur_lexeme_pos][0] == LexTokens.Or_Tok):
             self.match(LexTokens.Or_Tok)
             self.evalVar()  
         elif(self.stream[self.cur_lexeme_pos][0] == LexTokens.Not_Tok):
+            op = AST("UNARY")
+            self.NodePtr.addNode(op)
+            self.NodePtr = op
             self.match(LexTokens.Not_Tok)
             self.evalVar()  
+            self.NodePtr = self.NodePtr.get_parent()
            
         
 
@@ -105,6 +120,7 @@ class Parser:
 
     def dump_AST(self, node):
         print(node.name, end="")
+        
         if(node.parent != None):
             print(" PARENT is", node.parent.name)
         for children in node.children:

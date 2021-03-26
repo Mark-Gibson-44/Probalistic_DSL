@@ -1,6 +1,9 @@
 import re
 import enum
 
+
+
+
 class LexTokens(enum.Enum):
     Prob_P = 1
     L_Paren = 2
@@ -31,6 +34,8 @@ class Lexer:
         self.Tok_list = []
         self.cur_char = ''
         self.cur_word = ""
+
+        
     def log(self):
         for tok in self.Tok_list:
             print(tok)
@@ -47,12 +52,27 @@ class Lexer:
                     
                     self.Tok_list.append((LexTokens(tok+1), self.cur_word))
                     self.cur_word = ""
-        if(self.cur_word != ""):
-            pass#raise Exception
+                if(self.cur_word != ""):
+                    pass#raise Exception
+        
+    def lex_Repl(self, line):
+        for char in line:
+            if(char == " " or char == "\n" or char == "\t"):
+                continue
+            self.cur_word = self.cur_word + char
+            matched, tok = isToken(self.cur_word)
+            if(matched):
+                    
+                self.Tok_list.append((LexTokens(tok+1), self.cur_word))
+                self.cur_word = ""
+            if(char == "Q"):
+                exit()
+        
+        
         
             
 
 
-l = Lexer()
-l.lex("Frontend/test.txt")
+#l = Lexer()
+#l.lex("Frontend/test.txt")
 #l.log()
