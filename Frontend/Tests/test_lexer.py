@@ -3,6 +3,7 @@ import sys
 sys.path.append("..")
 
 from Lexer import *
+from Parser import *
 
 
 
@@ -13,6 +14,11 @@ def test_lex_tokens():
     l.lex("./Tok_test.txt")
     for i in range(len(l.Tok_list)):
         assert(l.Tok_list[i][0] == exp_tok[i])
+
+
+def test_parser_():
+    pass
+
 
 
     

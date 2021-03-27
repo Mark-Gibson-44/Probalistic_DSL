@@ -25,7 +25,7 @@ class AST:
 class Parser:
 
     def consume(self):
-        print(self.stream[self.cur_lexeme_pos])
+        #print(self.stream[self.cur_lexeme_pos])
         self.cur_lexeme_pos = self.cur_lexeme_pos + 1
 
     def match(self, x):
@@ -59,6 +59,7 @@ class Parser:
             self.NodePtr.addNode(equ)
             self.NodePtr = equ
             self.value()
+
         else:
             
             self.match(LexTokens.Is_tok)
@@ -143,4 +144,4 @@ l = Lexer()
 l.lex("Frontend/test.txt")
 p = Parser(l.Tok_list)
 p.prog()
-print(p.dump_AST(p.ast))
+#print(p.dump_AST(p.ast))
