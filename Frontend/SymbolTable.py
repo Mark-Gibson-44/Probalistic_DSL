@@ -1,5 +1,5 @@
-from Lexer import *
-from Parser import *
+from Frontend.Lexer import LexTokens
+#from Frontend.Parser import *
 
 
 
@@ -18,8 +18,8 @@ class SymbolTable:
     
     def check_symbol(self, var):
         if self.declared(var):
-            
-            print("Already Declared")
+            pass
+            #print("Already Declared")
         else:
             #self.symbols[var] = (True, -1)
             self.last_referenced = var
@@ -94,12 +94,3 @@ class SymbolTable:
             self.traverseTree(nodes)
 
         
-
-l = Lexer()
-l.lex("Frontend/test.txt")
-p = Parser(l.Tok_list)
-p.prog()
-st = SymbolTable(p.ast)
-
-#for keys in st.symbols:
-#    print(keys, st.symbols[keys])

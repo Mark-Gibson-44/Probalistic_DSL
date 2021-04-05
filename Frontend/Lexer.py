@@ -68,11 +68,3 @@ class Lexer:
             if(char == "Q"):
                 exit()
         
-        
-        
-            
-
-
-#l = Lexer()
-#l.lex("Frontend/test.txt")
-#l.log()

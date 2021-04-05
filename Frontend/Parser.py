@@ -1,4 +1,4 @@
-from Lexer import *
+from Frontend.Lexer import LexTokens
 
 class AST:
     
@@ -137,11 +137,3 @@ class Parser:
             self.NodePtr = expr
             self.expr()
             self.NodePtr = self.NodePtr.get_parent()
-            
-
-
-l = Lexer()
-l.lex("Frontend/test.txt")
-p = Parser(l.Tok_list)
-p.prog()
-#print(p.dump_AST(p.ast))
